@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi sitio de Superhéroes Marvel</title>
+    <style>
+        body {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            color: rgb(248, 0, 0);
+            background-color: whitesmoke;
+            padding: 20px;
+        }
+        .hero {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .hero img {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Proyecto de Superhéroes Marvel</h1> 
+    <hr>
+    <h3>Estos son los superhéroes de Marvel</h3> 
+    <div id="hero-container"></div>
+
+    <script>
+        async function obtenerSuperHeroes() {
+            try {
+                // API de Superhéroes (puedes cambiarla por la de Marvel si tienes una clave API)
+                const respuesta = await fetch('https://akabab.github.io/superhero-api/api/all.json');
+                const data = await respuesta.json();
+                const heroContainer = document.getElementById('hero-container');
+
+                // Mostrar los primeros 10 héroes
+                data.slice(0, 10).forEach(hero => {
+                    const heroElement = document.createElement('div');
+                    heroElement.classList.add('hero');
+                    heroElement.innerHTML = `
+                        <img src="${hero.images.md}" alt="${hero.name}" width="100">
+                        <div>
+                            <h3>${hero.name}</h3>
+                            <hr>
+                            <p>Altura: ${hero.appearance.height[1]}</p>
+                            <p>Peso: ${hero.appearance.weight[1]}</p>
+                            <p>Género: ${hero.gender}</p>
+                            <p>Raza: ${hero.appearance.race}</p>
+                            <p>Primera aparición: ${hero.biography.firstAppearance}</p>
+                        </div>
+                    `;
+                    heroContainer.appendChild(heroElement);
+                });
+            } catch (error) {
+                console.error('Error al obtener los superhéroes', error);
+            }
+        }
+
+        // Llamar a la función cuando se cargue la página
+        window.onload = obtenerSuperHeroes;
+    </script>
+</body>
+</html>

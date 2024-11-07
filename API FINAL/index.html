@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi sitio mortyandrick</title>
+    <style>
+        body {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            color: hotpink;
+            background-color: whitesmoke;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mi Proyecto del 17/10</h1> 
+    <hr>
+    <h3>Estos son los personajes de mortyandrick</h3> 
+    <div id="character-container"></div>
+
+
+
+    <script>
+        async function obtenerPersonajesDeRickMorty() {
+            try {
+                const respuesta = await fetch('https://rickandmortyapi.com/api/character')
+                const data = await respuesta.json()
+                const characterContainer = Document.getElementById('character-container')
+
+                data.results.forEach(character =>
+                {
+                    const characterElement = document.createElement('div')
+                    characterElement.classList.add('character')
+                    characterElement.innerHTML = `
+                    <img src="${character.imagen}" alt="${character.name}" width="100">
+                    <div>
+                        <h3></h3>
+                        <hr>
+                        <p>Estado : ${character.status}</p> 
+                        <p>Especie : ${character.species}</p>
+                        <p>Genero : ${character.gender}</p>
+                        <p>Tipo : ${character.type}</p>
+                        <p>Lugar de origen : ${character.origin.name}</p>
+                    </div>`
+                    characterContainer.appendChild(characterElement)
+                })  
+            } catch (error) {
+                console.error('Error al intentar obtener los personajes', error)
+            }
+        }
+        //Llamar a la función
+        window.onload = obtenerPersonajesDeRickMorty
+    </script>
+</body>
+</html>
